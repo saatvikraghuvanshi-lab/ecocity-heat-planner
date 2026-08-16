@@ -16,7 +16,9 @@ import {
   RotateCcw,
   Droplets,
   Building,
-  Filter
+  Filter,
+  Save,
+  Loader2
 } from "lucide-react";
 import { 
   District, 
@@ -26,6 +28,7 @@ import {
   CalculatedMetrics 
 } from "@/types/dashboard";
 import { INITIAL_HOTSPOTS } from "@/lib/simulationEngine";
+import { saveSimulationRecord } from "@/lib/simulationService";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -72,6 +75,9 @@ export const HeatMapViewer: React.FC<HeatMapViewerProps> = ({
   const [splitPosition, setSplitPosition] = useState<number>(50); // percentage 0-100
   const [hoveredCoords, setHoveredCoords] = useState<{ x: number; y: number; temp: number; label?: string } | null>(null);
   
+  // Database Save Loading State
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
   // Dynamic Map Navigation State (Zoom & Pan)
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -87,6 +93,37 @@ export const HeatMapViewer: React.FC<HeatMapViewerProps> = ({
   const [showHotspotPins, setShowHotspotPins] = useState<boolean>(true);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+ // components/map/HeatMapViewer.tsx
+
+  const handleSaveSimulation = async () => {
+    setIsSaving(true);
+    const payload = {
+      districtId: district.id || district.name,
+      scenarioName: `${district.name} - ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
+      canopyCoveragePct: interventions.canopyCoveragePct,
+      coolRoofAdoptionPct: interventions.coolRoofAdoptionPct,
+      permeablePavementPct: interventions.permeablePavementPct || 0,
+      waterMistingDensityPct: interventions.waterMistingDensityPct || 0,
+      verticalGardensPct: interventions.verticalGardensPct || 0,
+      tempReductionCelsius: metrics.tempReductionC,
+      tempReductionFahrenheit: metrics.tempReductionF,
+      energySavingsMwh: metrics.annualEnergySavingsMwh || 0,
+      costEstimateUsd: metrics.capitalCostEstimateUsd || 0,
+      carbonOffsetTons: metrics.carbonOffsetTonsYear || 0,
+      healthRiskReductionPct: metrics.heatStressReductionScore || 0,
+      geojson: null
+    };
+
+    const result = await saveSimulationRecord(payload);
+    setIsSaving(false);
+
+    if (result) {
+      alert("Simulation record saved successfully to Supabase!");
+    } else {
+      alert("Failed to save simulation to database. Please check console or network connection.");
+    }
+  };
 
   // Sync split view if parent isComparisonMode prop changes
   useEffect(() => {
@@ -272,7 +309,7 @@ export const HeatMapViewer: React.FC<HeatMapViewerProps> = ({
           </div>
         </div>
 
-        {/* Dynamic Controls: Layers & Split View */}
+        {/* Dynamic Controls: Layers, Save & Split View */}
         <div className="flex items-center gap-1.5 flex-wrap justify-end">
           {/* Quick Layer Switcher */}
           {onChangeLayer && (
@@ -323,6 +360,19 @@ export const HeatMapViewer: React.FC<HeatMapViewerProps> = ({
               </button>
             </div>
           )}
+
+          {/* Save Simulation to Supabase Button */}
+          <Button
+            id="save-simulation-btn"
+            variant="outline"
+            size="sm"
+            onClick={handleSaveSimulation}
+            disabled={isSaving}
+            className="h-7 text-xs px-2.5 gap-1.5 border-emerald-700/60 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/60 hover:text-white transition-colors"
+          >
+            {isSaving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
+            <span className="hidden sm:inline">{isSaving ? "Saving..." : "Save Scenario"}</span>
+          </Button>
 
           {/* Before/After Split Toggle Button */}
           <Button

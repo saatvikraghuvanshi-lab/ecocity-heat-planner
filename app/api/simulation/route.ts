@@ -72,13 +72,17 @@ export async function GET(request: Request) {
   //   .eq('district_id', districtId)
   //   .order('created_at', { ascending: false });
 
-  const history = await supabase.getSimulationsByDistrict(districtId);
+  const { data: history, error } = await supabase
+  .from("simulations")
+  .select("*")
+  .eq("district_id", districtId)
+  .order("created_at", { ascending: false });
 
   return new Response(
     JSON.stringify({
       success: true,
       districtId,
-      simulations: history.data,
+      simulations: history,
       spatialBoundaries: {
         type: "Feature",
         properties: { name: "Metro Core - District 07", area_sq_km: 14.8 },
@@ -210,7 +214,11 @@ export async function POST(request: Request) {
     };
 
     // Save record via client interface
-    const { data: savedRecord } = await supabase.saveSimulation(simulationRecord);
+    const { data: savedRecord, error } = await supabase
+  .from("simulations")
+  .insert([simulationRecord])
+  .select()
+  .single();
 
     const responsePayload: SimulationResultResponse = {
       status: "success",

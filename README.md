@@ -1,31 +1,34 @@
-# EcoCity Heat Planner
+# 🌆 EcoCity Heat Planner
 
-An interactive geospatial dashboard for simulating urban heat island (UHI) mitigation strategies, built with Next.js App Router, TypeScript, and Leaflet.
+EcoCity Heat Planner is an interactive simulation dashboard designed to model urban heat island effects and test mitigation strategies in real time. Built with a fast, modern web stack, it allows urban planners and citizens to manipulate environmental parameters and persist intervention data seamlessly.
 
-## Features
+---
 
-- **Geospatial Thermal Simulation**: Visualize baseline LST, post-intervention models, thermal deltas, and NDVI vegetation layers.
-- **Interactive Map Controls**: Real-time Leaflet canvas rendering custom heat mapping layers.
-- **Urban Mitigation Scenarios**: Adjust canopy coverage, cool roof percentages, and urban density inputs dynamically.
-- **Metric Analytics**: Instant dashboard metric updates calculating microclimate temperature reductions.
+## 🚀 Live Demo & Repository
+* **Deployment**: [Your Vercel App Link Here]
+* **GitHub Repository**: https://github.com/saatvikraghuvanshi-lab/ecocity-heat-planner
 
-## Tech Stack
+---
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **Mapping**: Leaflet / React-Leaflet
-- **Icons**: Lucide React
+## ✨ Features
+* **Interactive Heat Mapping**: Visual representation of urban thermal dynamics using custom map overlays.
+* **Real-time Interventions**: Adjust urban canopy coverage, cool roof adoption, permeable pavements, water misting, and vertical gardens via responsive sliders.
+* **Calculated Metrics**: Dynamic estimation of temperature reductions, energy savings, health risk mitigation, and carbon offsets.
+* **Cloud Persistence**: Persist and fetch scenario history securely using Supabase with Row Level Security (RLS).
 
-## Getting Started
+---
 
-### Prerequisites
+## 🛠️ Tech Stack
+* **Frontend**: React, Vite, Tailwind CSS
+* **Mapping**: Leaflet / Mapbox
+* **Backend & Database**: Supabase (PostgreSQL with PostGIS enabled)
+* **Hosting**: Vercel
 
-Ensure you have Node.js (v18+) and npm installed.
+---
 
-### Installation
+## ⚡ Local Setup
 
-1. Clone the repository:
+1. **Clone the repository**:
    ```bash
-   git clone [https://github.com/YOUR_USERNAME/ecocity-heat-planner.git](https://github.com/YOUR_USERNAME/ecocity-heat-planner.git)
+   git clone [https://github.com/saatvikraghuvanshi-lab/ecocity-heat-planner.git](https://github.com/saatvikraghuvanshi-lab/ecocity-heat-planner.git)
    cd ecocity-heat-planner

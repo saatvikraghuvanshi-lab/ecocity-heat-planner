@@ -1,0 +1,6 @@
+{
+  "name": "EcoCity Heat Planner",
+  "description": "EcoCity Heat Planner dashboard with atmospheric thermal simulation flow, nature-based intervention controls, real-time cooling metrics, thermal layer toggling, analytics, and export.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

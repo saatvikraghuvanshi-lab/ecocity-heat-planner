@@ -5,7 +5,8 @@ EcoCity Heat Planner is an interactive simulation dashboard designed to model ur
 ---
 
 ## 🚀 Live Demo & Repository
-* **Deployment**: [Your Vercel App Link Here]
+* **Deployment**: https://ecocity-heat-planner-git-main-saatvikraghuvanshi-labs-projects.vercel.app/ or https://ecocity-heat-planner.vercel.app/
+*                  https://ecocity-heat-planner.vercel.app/
 * **GitHub Repository**: https://github.com/saatvikraghuvanshi-lab/ecocity-heat-planner
 
 ---
